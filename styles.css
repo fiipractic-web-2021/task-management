@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+.container {
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+}
+nav {
+  background: red;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.avatar {
+  align-self: flex-end;
+}
+main {
+  flex: 1;
+}
+.filters, .columns {
+  display: flex;
+}
+
+.columns > section {
+  width: 25%;
+}
