@@ -1,0 +1,196 @@
+@import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Helvetica Neue, Arial, Noto Sans, sans-serif;
+  color: #172b4d;
+}
+
+.page {
+  display: flex;
+  height: 100%;
+}
+
+/****** SIDENAV *****/
+
+aside {
+  background: #0747a6;
+  color: #ffffff;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+nav .actions {
+  display: flex;
+  flex-direction: column;
+}
+
+aside button {
+  background-color: transparent;
+  border: 0 none;
+  color: #ffffff;
+  outline: none;
+}
+
+.icon-btn {
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  color: #dcdcdc;
+}
+
+.avatar {
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  width: 3em;
+  height: 3em;
+  background-image: url("https://res.cloudinary.com/dvujyxh7e/image/upload/c_scale,w_48/v1593253478/trung-vo_bioxmc.png");
+  border-radius: 100%;
+}
+
+/****** END SIDENAV *****/
+
+main {
+  flex: 1;
+  padding: 3em;
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  font-weight: 500;
+  margin-bottom: 1em;
+}
+
+.board {
+  display: flex;
+  height: 100%;
+}
+
+section {
+  background-color: #f4f5f7;
+  flex: 1;
+  margin: 1em;
+  height: 100%;
+  padding: 0.75em;
+}
+
+h5.section-title {
+  padding: 1em;
+  text-transform: uppercase;
+  font-weight: 500;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* the list of task cards */
+
+.tasks {
+  /** TODO add scrolling capabilities */
+  overflow: auto;
+  height: 100%;
+}
+
+.tasks:empty:before {
+  color: #e9494a;
+  content: "All clear!!";
+  font-weight: bold;
+  line-height: 10vh;
+  opacity: 0.4;
+  text-align: center;
+}
+
+/***** TASK CARD *****/
+
+.task {
+  background: #ffffff;
+  padding: 1em;
+  margin-bottom: 1em; /* add a bit of spacing between the cards */
+
+  box-shadow: 0 1px 2px 0 rgba(9, 30, 66, 0.25);
+}
+
+.task:hover {
+  background-color: #ebecf0;
+}
+
+.task-title {
+  margin-bottom: 1.5em;
+}
+
+.task-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875em;
+}
+
+.task-info {
+  display: flex;
+  align-items: center;
+}
+
+.task-info .avatar {
+  height: 1.5em;
+  width: 1.5em;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.task-code {
+  margin-left: 0.5em;
+}
+
+.task-status {
+  display: flex;
+}
+
+.task-status div {
+  margin-right: 0.5em;
+}
+
+.task-status div:last-child {
+  margin-right: 0;
+}
+
+.task-status .task-type {
+  color: #57a55a;
+}
+
+.task-status .task-priority {
+  color: #e9494a;
+}
+
+/****** END TASK CARD *****/
+
+/* animations */
+
+.rotate {
+  animation: spin 1s infinite linear forwards;
+  display: inline-block;
+}
+
+/* animation definitions */
+@keyframes spin {
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
