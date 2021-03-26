@@ -1,0 +1,268 @@
+@import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Helvetica Neue, Arial, Noto Sans, sans-serif;
+  color: #172b4d;
+}
+
+.page {
+  display: flex;
+  height: 100%;
+}
+
+/****** SIDENAV *****/
+
+aside {
+  background: #0747a6;
+  color: #ffffff;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+nav .actions {
+  display: flex;
+  flex-direction: column;
+}
+
+aside button {
+  background-color: transparent;
+  border: 0 none;
+  color: #ffffff;
+  outline: none;
+}
+
+.icon-btn {
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  color: #dcdcdc;
+}
+
+.avatar {
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  width: 3em;
+  height: 3em;
+  background-image: url("https://res.cloudinary.com/dvujyxh7e/image/upload/c_scale,w_48/v1593253478/trung-vo_bioxmc.png");
+  border-radius: 100%;
+}
+
+/****** END SIDENAV *****/
+
+main {
+  flex: 1;
+  padding: 3em;
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  font-weight: 500;
+  margin-bottom: 1em;
+}
+
+.board {
+  display: flex;
+  height: 100%;
+}
+
+section {
+  background-color:rgb(181 175 175);
+  flex: 1;
+  margin: 1em;
+  height: 100%;
+  padding: 0.75em;
+}
+
+section:active {
+  box-shadow: 0 5px gray;
+  transform: translateY(4px);
+}
+
+h5.section-title {
+  padding: 1em;
+  text-transform: uppercase;
+  font-weight: 500;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.avatar-list > .avatar > img{
+  border-radius: 50%;
+}
+
+.filters{
+  display: flex;
+  justify-content: flex-start;
+}
+
+.filters > input{
+  height: 30px;
+  align-self: center;
+  margin-right: 20px;
+}
+/* the list of task cards */
+
+.tasks {
+  /** TODO add scrolling capabilities */
+  overflow: auto;
+  height: 100%;
+}
+
+.tasks:empty:before {
+  color: #e9494a;
+  content: "All clear!!";
+  font-weight: bold;
+  line-height: 10vh;
+  opacity: 0.4;
+  text-align: center;
+}
+
+/***** TASK CARD *****/
+
+.task {
+  background: #ffffff;
+  padding: 1em;
+  margin-bottom: 1em; /* add a bit of spacing between the cards */
+
+  box-shadow: 0 1px 2px 0 rgba(9, 30, 66, 0.25);
+}
+
+.task:hover {
+  background-color: #ebecf0;
+}
+
+.task-title {
+  margin-bottom: 1.5em;
+}
+
+.task-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875em;
+}
+
+.task-info {
+  display: flex;
+  align-items: center;
+}
+
+.task-info .avatar {
+  height: 1.5em;
+  width: 1.5em;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.task-code {
+  margin-left: 0.5em;
+}
+
+.task-status {
+  display: flex;
+}
+
+.task-status div {
+  margin-right: 0.5em;
+}
+
+.task-status div:last-child {
+  margin-right: 0;
+}
+
+.task-status .task-type {
+  color: #57a55a;
+}
+
+.task-status .task-priority {
+  color: #e9494a;
+}
+
+/****** END TASK CARD *****/
+
+/* animations */
+
+.rotate {
+  animation: spin 1s infinite linear forwards;
+  display: inline-block;
+}
+
+/* animation definitions */
+@keyframes spin {
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+.fade-in {
+  animation: fadeIn ease 2s;
+  -webkit-animation: fadeIn ease 2s;
+  -moz-animation: fadeIn ease 2s;
+  -o-animation: fadeIn ease 2s;
+  -ms-animation: fadeIn ease 2s;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-out {
+  animation: fadeOut ease 2s;
+  -webkit-animation: fadeOut ease 2s;
+  -moz-animation: fadeOut ease 2s;
+  -o-animation: fadeOut ease 2s;
+  -ms-animation: fadeOut ease 2s;
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+.avatar-list{
+	height: 60px;
+	border: 2px solid white;
+	display: flex;
+	position: relative;
+	
+	list-style-type: none;
+}
+
+.avatar-list > li:nth-child(n+2) { 
+	margin-left: -30px;
+	-webkit-transition: .2s ease;
+	transition: .2s ease;
+
+ }
+
+ul:hover li:nth-child(n+2) {
+   margin-left: -10px;
+}

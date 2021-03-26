@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8" />
+	<link rel="stylesheet" href="styles.css">
+	<script type="module" src="index.js"></script>
+  </head>
+
+  <body>
+    <div class="page">
+      <aside>
+        <div class="actions">
+          <button class="icon-btn" id="searchTask">
+            <i class="fa fa-search fa-2x"></i>
+          </button>
+          <button class="icon-btn" id="addTask">
+            <i class="fa fa-plus fa-2x"></i>
+          </button>
+          <button class="icon-btn" id="removeTask">
+            <i class="fa fa-minus fa-2x"></i>
+          </button>
+        </div>
+        <div class="avatar"></div>
+      </aside>
+      <main>
+        <h1>JIRA board</h1>
+		<div class="filters">
+			<input type="search" placeholder="search...">
+			<ul class="avatar-list">
+				<li class="avatar"><img src="/assets/captain.jpg" alt="captain"></li>
+				<li class="avatar"><img src="/assets/ironman.jpg" alt="ironman"></li>
+				<li class="avatar"><img src="/assets/spiderman.jpg" alt="spiderman"></li>
+				<li class="avatar"><img src="/assets/thor.jpg" alt="thor"></li>
+			</ul>
+		</div>
+        <div class="board">
+          <section>
+            <h5 class="section-title">Backlog <span>4</span></h5>
+            <div class="tasks">
+            </div>
+          </section>
+
+          <section>
+            <h5 class="section-title">
+              Selected for development <span>4</span>
+            </h5>
+            <div class="tasks"></div>
+          </section>
+
+          <section>
+            <h5 class="section-title">In progress <span>4</span></h5>
+            <div class="tasks"></div>
+          </section>
+
+          <section>
+            <h5 class="section-title">Done <span>4</span></h5>
+            <div class="tasks"></div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+  </body>
+</html>
+
+
+
+
+
+
