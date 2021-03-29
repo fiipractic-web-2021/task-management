@@ -64,7 +64,7 @@ function showForm() {
   const h1 = Array.from(document.getElementsByTagName('h1')).shift();
   const form = h1.insertAdjacentElement("afterend", showAddForm());
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', function submitEventListener(event){
     event.preventDefault();
     const { target }  = event;
 
@@ -73,7 +73,10 @@ function showForm() {
 
     // todo validate data!!
     addTask(title.value, tag.value);
+    form.removeEventListener("submit", submitEventListener);
+    form.parentNode.removeChild(form);
   });
+  //addTaskButton.removeEventListener("click", showForm);
 }
 
 function showAddForm() {
