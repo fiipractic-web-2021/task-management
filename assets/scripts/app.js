@@ -114,7 +114,7 @@ function showForm() {
     const type = target.querySelector('[name="type"]')
 
     // todo validate data!!
-    addTask(title.value, tag.value, title.type);
+    addTask(title.value, tag.value, type.value);
     form.removeEventListener("submit", submitEventListener);
     form.parentNode.removeChild(form);
     });
@@ -157,7 +157,7 @@ function showAddForm() {
     return compileToNode(formString);
 }
 
-const getTaskTypeIcon = taskType =>{
+const getTaskTypeIcon = (taskType) =>{
   const iconKeyValuePair = Object.entries(taskTypeIcons)
                       .find(([key, value]) => {
                         console.log(key, value);
