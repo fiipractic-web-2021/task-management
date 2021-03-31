@@ -117,13 +117,15 @@ h5.section-title {
   background-color: #ebecf0;
 }
 
-.task .delete-task {
-  position: absolute;
-  right: 1em;
+.taskHeader {
+  display: flex;
+  justify-content: space-between;
 }
+
 
 .task-title {
   margin-bottom: 1.5em;
+  order: -1;
 }
 
 .task-details {
@@ -177,7 +179,7 @@ h5.section-title {
 
 /*For Mobile*/
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1300px) {
   .board {
     flex-direction: row;
   }
@@ -262,7 +264,7 @@ h5.section-title {
   background-color: #172b4d;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1350px) {
   .modal {
     height: auto;
     border-radius: 5px;
