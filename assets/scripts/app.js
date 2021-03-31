@@ -57,16 +57,22 @@ const getPriorityIcon = priority => {
     addTask(...Object.values(task))
 });*/
 
-// adding delete task option for static tasks
-document.querySelectorAll(".delete-task").forEach(deleteTaskButton => {
-  deleteTaskButton.addEventListener("click", deleteTask);
-});
+const removeTasksFromColumns = () => {
+  const columns = document.getElementsByClassName("tasks");
+  for (let column of columns) {
+    while (column.firstChild) {
+      console.log(column.lastChild);
+      column.removeChild(column.lastChild);
+    }
+  }
+}
 
 const getDataFromAPI = () => {
   fetch("https://60638dd76bc4d60017fab46a.mockapi.io/task")
     .then(response => response.json())
     .then(data => data.forEach(task => {
-      addTask(task.title, task.type, task.priority, task.status);
+      addTask(task.title, task.owner, task.description,
+         task.type, task.priority, task.status, task.id);
     }));
 }
 getDataFromAPI();
@@ -90,20 +96,24 @@ function compileTaskTemplate(title, tag, taskType, priority, template) {
   return compileToNode(compiledTemplate);
 }
 
-function addTask(title, taskType, priority, columnName, owner, description) {
+function addTask(title, owner, description,
+          type, priority, status, id) {
   const newTask = {
-    title: title,
-    taskType: taskType,
-    priority: priority,
-    tag: getId(taskType),
-    createdAt: new Date().toLocaleString(),
+    id: id,
     owner: owner,
-    description: description
+    createdAt: new Date().toLocaleString(),
+    taskType: type,
+    priority: priority,
+    title: title,
+    description: description,
+    status: status,
+    tag: getId(type)
+    
   }
   //console.log(newTask);
   tasks.push(newTask);
   //console.log(tasks);
-  const column = document.getElementById(columnName);
+  const column = document.getElementById(status);
   const tasksInColumn = column.querySelector(".tasks");
   //console.log(column);
   const task = compileTaskTemplate(newTask.title, newTask.tag, newTask.taskType, newTask.priority, taskTemplate);
@@ -123,8 +133,26 @@ function deleteTask(event) {
     { opacity: 1 },
     { opacity: 0 }
   ], 500).onfinish = remove;
-};
 
+  const deleteTaskOnAPI = () => {
+    const taskCode = task.getElementsByClassName("task-code")[0].innerHTML.toString();
+    const numberPattern = /\d+/g;
+    const taskId = parseInt(taskCode.match(numberPattern));
+  
+    fetch("https://60638dd76bc4d60017fab46a.mockapi.io/task/" + taskId,
+      {
+        method: 'DELETE',
+      })
+      .then(response => response.json())
+      .then(result => {
+        console.log('Success:', result);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+    deleteTaskOnAPI();
+};
 
 
 function showForm() {
@@ -159,6 +187,7 @@ function showForm() {
     const addTaskForm = document.getElementById('addTaskForm');
     let formData = new FormData();
 
+    formData.append('id', tasks.length+1);
     formData.append('createdAt', creationDate);
     formData.append('owner', owner);
     formData.append('type', type);
@@ -171,15 +200,7 @@ function showForm() {
     formData.forEach((value, key) => formDataObject[key] = value);
     console.log(JSON.stringify(formDataObject));
 
-    const columns = document.getElementsByClassName("tasks");
-    const removeTasksFromColumns = () => {
-      for (let column of columns) {
-        while (column.firstChild) {
-          console.log(column.lastChild);
-          column.removeChild(column.lastChild);
-        }
-      }
-    }
+   
 
     const postDataToAPI = () =>{
     fetch("https://60638dd76bc4d60017fab46a.mockapi.io/task",
@@ -195,6 +216,7 @@ function showForm() {
       .then(result => {
         console.log('Success:', result);
         removeTasksFromColumns();
+        tasks.splice(0, tasks.length);
       })
       .then(() => getDataFromAPI())
       .catch(error => {
