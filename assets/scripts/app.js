@@ -1,7 +1,8 @@
 const taskTemplate = `
-  <div class="task">
+  <div class="task" draggable="true">
     <div class="taskHeader">
       <i class="delete-task fa fa-trash icon-red"></i>
+      <i class="far fa-edit editTask"></i>
       <p class="task-title">{title}</p>
     </div>
     <div class="task-details">
@@ -73,7 +74,14 @@ const getDataFromAPI = () => {
     .then(data => data.forEach(task => {
       addTask(task.title, task.owner, task.description,
          task.type, task.priority, task.status, task.id);
-    }));
+    }))
+    .then(() => {
+      var editTaskButtons = document.getElementsByClassName("editTask");
+      //console.log(editTaskButton);
+      for(const button of editTaskButtons){
+        button.addEventListener("click", editTask);
+      }
+    });
 }
 getDataFromAPI();
 
@@ -93,6 +101,14 @@ function compileTaskTemplate(title, tag, taskType, priority, template) {
     .replace("{tag}", tag)
     .replace("{taskType}", getTaskTypeIcon(taskType))
     .replace("{priority}", getPriorityIcon(priority));
+  return compileToNode(compiledTemplate);
+}
+
+function compileFormTemplate(title, owner, description, template) {
+  const compiledTemplate = template
+    .replace("{title}", title)
+    .replace("{owner}", owner)
+    .replace("{description}", description);
   return compileToNode(compiledTemplate);
 }
 
@@ -122,6 +138,90 @@ function addTask(title, owner, description,
 
   const deleteTaskButton = task.querySelector(".delete-task");
   deleteTaskButton.addEventListener("click", deleteTask);
+}
+
+function editTask(event){
+
+    const task = event.currentTarget.parentElement.parentElement;
+    const taskCode = task.getElementsByClassName("task-code")[0].innerHTML.toString();
+    const numberPattern = /\d+/g;
+    //for put request location
+    const taskId = parseInt(taskCode.match(numberPattern));
+
+    const taskDetails = tasks[taskId-1];
+    console.log(taskDetails);
+    const form = document.body.appendChild(compileFormTemplate(taskDetails.title, 
+      taskDetails.owner, taskDetails.description, formString));
+    form.classList.add('show');
+    form.animate([
+      { opacity: 0 },
+      { opacity: 1 }
+    ], 500);
+    const closeButton = form.querySelector(".close");
+  
+    const closeEditTaskForm = () => {
+      form.removeEventListener('submit', submitTask);
+      closeButton.removeEventListener('click', closeEditTaskForm);
+      form.classList.remove('show');
+    }
+
+    const submitTask = (event) => {
+      event.preventDefault();
+  
+      const { target } = event;
+  
+      const title = target.querySelector('[name="title"]').value;
+      const type = target.querySelector('[name="type"]').value;
+      const priority = target.querySelector('[name="priority"]').value;
+      const column = target.querySelector('[name="status"]').value;
+      const owner = target.querySelector('[name="owner"]').value;
+      const description = target.querySelector('[name="description"]').value;
+      const creationDate = new Date().toLocaleString();
+      //addTask(title, type, priority, column);
+  
+      // addTaskForm = document.getElementById('addTaskForm');
+      let formData = new FormData();
+  
+      formData.append('id', tasks.length+1);
+      formData.append('createdAt', creationDate);
+      formData.append('owner', owner);
+      formData.append('type', type);
+      formData.append('priority', priority);
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('status', column);
+  
+      const formDataObject = {};
+      formData.forEach((value, key) => formDataObject[key] = value);
+      console.log(JSON.stringify(formDataObject));
+
+      const editTaskOnAPI = () => {
+        fetch("https://60638dd76bc4d60017fab46a.mockapi.io/task/" + taskId,
+          {
+            body: JSON.stringify(formDataObject),
+            method: 'PUT',
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json"
+            }
+          })
+          .then(response => response.json())
+          .then(result => {
+            console.log('Success:', result);
+            removeTasksFromColumns();
+            closeEditTaskForm();
+            tasks.splice(0, tasks.length);
+          })
+          .then(() => getDataFromAPI())
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        };
+        editTaskOnAPI();
+      }
+
+      closeButton.addEventListener('click', closeEditTaskForm);
+      form.addEventListener('submit', submitTask);
 }
 
 function deleteTask(event) {
@@ -249,23 +349,22 @@ function getId(taskType) {
   }
 }
 
-
-function showAddForm() {
-  const formString = `
+const formString = `
     <div class="backdrop hide">
       <div class="modal">
         <h2 class="title">Add a new task</h2>
         <i class="close fas fa-times fa-2x"></i>
         <form id="addTaskForm" action="" method="POST">
           <label for="title">Title</label>
-          <input type="text" name="title" id="title" required>
+          <input type="text" name="title" id="title" value="{title}" required>
 
           <label for="owner">Owner</label>
-          <input type="text" name="owner" id="owner" required>
+          <input type="text" name="owner" id="owner" value="{owner}" required>
 
           <label for="description">Description</label>
-          <input type="text" name="description" id="description" required>
-
+          <textarea id="description" name="description" rows="4" required>
+            {description}
+          </textarea>
           <label for="type">Type</label>
           <select name="type" id="type" required>
             <option disabled selected value></option>
@@ -299,5 +398,31 @@ function showAddForm() {
     </div>
     `.trim();
 
-  return compileToNode(formString);
+function showAddForm() {
+  return compileFormTemplate("", "", "", formString);
 }
+
+// dragging tasks logic
+
+function dragstart_handler(ev) {
+  // Add the target element's id to the data transfer object
+  ev.dataTransfer.setData("text/html", ev.target.innerHTML);
+  ev.dataTransfer.effectAllowed = "move";
+ }
+ function dragover_handler(ev) {
+  ev.preventDefault();
+  ev.dataTransfer.dropEffect = "move"
+ }
+ function drop_handler(ev) {
+  ev.preventDefault();
+  // Get the id of the target and add the moved element to the target's DOM
+  const data = ev.dataTransfer.getData("text/html");
+  ev.target.appendChild(document.getElementById(data));
+ }
+
+ const dragTaskLogic = () => {
+
+  const tasks = document.getElementsByClassName("task");
+  
+ }
+

@@ -126,6 +126,7 @@ h5.section-title {
 .task-title {
   margin-bottom: 1.5em;
   order: -1;
+  flex-grow: 1;
 }
 
 .task-details {
@@ -159,6 +160,11 @@ h5.section-title {
 
 .task-status div:last-child {
   margin-right: 0;
+}
+
+.taskHeader >i {
+  text-align:center;
+  margin:5px;
 }
 
 /****** END TASK CARD *****/
@@ -250,6 +256,16 @@ h5.section-title {
   margin-bottom: 1em;
   width: 100%;
   padding: 1em;
+}
+
+#description {
+  background: #FFFFFF;
+  border: 1px #ddd solid;
+  border-radius: 5px;
+  margin-bottom: 1em;
+  width: 100%;
+  padding: 1em;
+  resize: none;
 }
 
 .modal .btn-add {
