@@ -66,6 +66,36 @@ aside button {
   border-radius: 100%;
 }
 
+.avatar-list {
+  height: 60px;
+  border: 2px solid white;
+  display: flex;
+  position: relative;
+
+  list-style-type: none;
+}
+
+.avatar-list > li:nth-child(n + 2) {
+  margin-left: -30px;
+  -webkit-transition: 0.2s ease;
+  transition: 0.2s ease;
+}
+
+ul:hover li:nth-child(n + 2) {
+  margin-left: -10px;
+}
+
+.filters {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.filters > input {
+  height: 30px;
+  align-self: center;
+  margin-right: 20px;
+}
+
 /****** END SIDENAV *****/
 
 main {
@@ -100,6 +130,11 @@ h5.section-title {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.hovered {
+  background: #f4f4f4;
+  border-style: dashed;
 }
 
 /***** TASK CARD *****/
