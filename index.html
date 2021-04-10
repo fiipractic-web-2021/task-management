@@ -1,66 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Management</title>
+    <link rel="stylesheet" href="assets/styles/style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Task Management</title>
-  <link rel="stylesheet" href="assets/styles/style.css">
-</head>
+  <body>
+    <div class="page">
+      <aside>
+        <div class="actions">
+          <button class="icon-btn" id="searchTask">
+            <i class="fa fa-search fa-2x"></i>
+          </button>
+          <button class="icon-btn" id="addTask">
+            <i class="fa fa-plus fa-2x"></i>
+          </button>
+        </div>
+        <div class="avatar"></div>
+      </aside>
+      <main>
+        <h1>JIRA board</h1>
+        <div class="filters">
+          <input type="search" placeholder="search..." />
+          <ul class="avatar-list">
+            <li class="avatar"></li>
+            <li class="avatar"></li>
+            <li class="avatar"></li>
+            <li class="avatar"></li>
+          </ul>
+        </div>
+        <div class="board">
+          <section id="backlog">
+            <h4 class="section-title">Backlog</h4>
+            <div class="tasks"></div>
+          </section>
 
-<body>
-  <div class="page">
-    <aside>
-      <div class="actions">
-        <button class="icon-btn" id="searchTask">
-          <i class="fa fa-search fa-2x"></i>
-        </button>
-        <button class="icon-btn" id="addTask">
-          <i class="fa fa-plus fa-2x"></i>
-        </button>
-      </div>
-      <div class="avatar"></div>
-    </aside>
-    <main>
-      <h1>JIRA board</h1>
-      <div class="filters">
-        <input type="search" placeholder="search..." />
-        <ul class="avatar-list">
-          <li class="avatar"></li>
-          <li class="avatar"></li>
-          <li class="avatar"></li>
-          <li class="avatar"></li>
-        </ul>
-      </div>
-      <div class="board">
-        <section id ="backlog">
-          <h4 class="section-title">Backlog </h4>
-          <div class="tasks">
-          </div>
-        </section>
+          <section id="selected">
+            <h4 class="section-title">Selected for development</h4>
+            <div class="tasks"></div>
+          </section>
 
-        <section id="selected">
-          <h4 class="section-title">
-            Selected for development 
-          </h4>
-          <div class="tasks"></div>
-        </section>
+          <section id="inprogress">
+            <h4 class="section-title">In progress</h4>
+            <div class="tasks"></div>
+          </section>
 
-        <section id="inprogress">
-          <h4 class="section-title">In progress </h4>
-          <div class="tasks"></div>
-        </section>
+          <section id="done">
+            <h4 class="section-title">Done</h4>
+            <div class="tasks"></div>
+          </section>
+        </div>
+      </main>
+    </div>
 
-        <section id="done">
-          <h4 class="section-title">Done </h4>
-          <div class="tasks"></div>
-        </section>
-      </div>
-    </main>
-  </div>
-
-  <script type="module" src="assets/scripts/app.js"></script>
-</body>
-
+    <script type="module" src="assets/scripts/app.js"></script>
+  </body>
 </html>

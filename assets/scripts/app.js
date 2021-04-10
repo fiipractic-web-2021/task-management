@@ -1,6 +1,7 @@
 const taskTemplate = `
   <div id = "{id}" class="task" draggable="true" >
     <div class="taskHeader">
+      <i class="fas fa-cog settings"></i>
       <i class="delete-task fa fa-trash icon-red"></i>
       <i class="far fa-edit editTask"></i>
       <p class="task-title">{title}</p>
@@ -68,6 +69,27 @@ const removeTasksFromColumns = () => {
   }
 }
 
+const displayTaskIcons = () => {
+  const settingsButtons = document.getElementsByClassName("settings");
+  for (const button of settingsButtons) {
+    button.addEventListener("click", () => {
+      const parent = button.parentElement;
+      const deleteButton = parent.getElementsByClassName("delete-task")[0];
+      const editButton = parent.getElementsByClassName("editTask")[0];
+      deleteButton.classList.toggle('showIcon');
+      deleteButton.animate([
+        { opacity: 0 },
+        { opacity: 1 }
+      ], 500);
+      editButton.classList.toggle('showIcon');
+      editButton.animate([
+        { opacity: 0 },
+        { opacity: 1 }
+      ], 500);
+    })
+  }
+}
+
 const getDataFromAPI = () => {
   fetch("https://60638dd76bc4d60017fab46a.mockapi.io/task")
     .then(response => response.json())
@@ -81,13 +103,15 @@ const getDataFromAPI = () => {
       for (const button of editTaskButtons) {
         button.addEventListener("click", editTask);
       }
-      /*
+
       const tasks = document.getElementsByClassName("task");
       for (const task of tasks) {
-        task.addEventListener("dragstart", dragstart_handler);
-        task.addEventListener("dragenter", dragEnter);
-        task.addEventListener("dragleave", dragLeave);
-      }*/
+        task.addEventListener("dragstart", dragstart_handler, false);
+        task.addEventListener("dragend", dragend_handler, false);
+
+        //task.addEventListener("dragleave", dragLeave);
+      }
+      displayTaskIcons();
       //dragTaskLogic();
     });
 }
@@ -419,10 +443,10 @@ const dragTaskLogic = () => {
   for (let column of tasksColumns) {
     column.addEventListener("drop", drop_handler);
     column.addEventListener("dragover", dragover_handler);
-   // column.addEventListener("dragenter", dragEnter);
-    //column.addEventListener("dragleave", dragLeave);
-    /*column.setAttribute("ondrop", "drop_handler(event)");
-    column.setAttribute("ondragover", "dragover_handler(event)");*/
+    // column.addEventListener("dragenter", dragEnter, false);
+    //column.addEventListener("dragleave", dragLeave, false);
+    /* column.setAttribute("ondrop", "drop_handler(event)");
+     column.setAttribute("ondragover", "dragover_handler(event)");*/
   }
 }
 
@@ -430,33 +454,110 @@ function dragstart_handler(ev) {
   // Add the target element's id to the data transfer object
   ev.dataTransfer.setData("text/html", ev.target.id);
   ev.dataTransfer.effectAllowed = "move";
+  ev.target.style.opacity = 0.4;
+  const tasksColumns = document.querySelectorAll(".tasks");
+  for (let tasks of tasksColumns) {
+    tasks.style.border = "3px dotted #7a8ca8";
+  }
+
 }
+
+function changeSection(ev, movedTask) {
+  console.log(movedTask);
+  console.log(ev.currentTarget.parentElement.id);
+  const taskCode = movedTask.getElementsByClassName("task-code")[0].innerHTML.toString();
+  const numberPattern = /\d+/g;
+  //for put request location
+  const taskId = parseInt(taskCode.match(numberPattern));
+  const taskNewStatus = ev.currentTarget.parentElement.id;
+  const taskDetails = tasks[taskId - 1];
+  console.log(taskDetails);
+  let formData = new FormData();
+  formData.append('id', taskId + 1);
+  formData.append('status', taskNewStatus);
+
+  const formDataObject = {};
+  formData.forEach((value, key) => formDataObject[key] = value);
+  console.log(JSON.stringify(formDataObject));
+
+  const editTaskStatusOnAPI = () => {
+    fetch("https://60638dd76bc4d60017fab46a.mockapi.io/task/" + taskId,
+      {
+        body: JSON.stringify(formDataObject),
+        method: 'PUT',
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        }
+      })
+      .then(response => response.json())
+      .then(result => {
+        console.log('Success:', result);
+        /*
+        removeTasksFromColumns();
+        tasks.splice(0, tasks.length);*/
+      })
+      .then()
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
+  editTaskStatusOnAPI();
+}
+
+function dragend_handler(ev) {
+  ev.target.style.opacity = 1;
+
+}
+
 function dragover_handler(ev) {
   ev.preventDefault();
+
   ev.dataTransfer.dropEffect = "move"
 }
 function drop_handler(ev) {
   ev.preventDefault();
-  if (ev.target.className == "task") {
-    const data = ev.dataTransfer.getData("text/html");
-    ev.target.parentElement.appendChild(document.getElementById(data));
-    console.log("ceva");
+  ev.currentTarget.style.border = null;
+  //if (ev.target.className == "task") {
+  const data = ev.dataTransfer.getData("text/html");
+  const movedTask = document.getElementById(data);
+  ev.currentTarget.appendChild(movedTask);
+  console.log(movedTask);
+  const tasksColumns = document.querySelectorAll(".tasks");
+  for (let tasks of tasksColumns) {
+    tasks.style.border = null;
   }
+  changeSection(ev, movedTask);
 }
 
-function dragEnter(ev){
+var dragCounter = 0;
+
+function dragEnter(ev) {
   ev.preventDefault();
-  /*if (ev.target.className == "task"){
-    ev.target.style.border = "3px dotted red";
-  }*/
+  ev.stopPropagation();
+  dragCounter++;
+  if (ev.currentTarget.innerHTML == "")
+    ev.currentTarget.style.border = "3px dotted red";
   console.log("enter");
-  this.parentElement.className+=' hovered';
+  //this.className += ' hovered';
 }
 
-function dragLeave(ev){
+function dragLeave(ev) {
   ev.preventDefault();
+  if (dragCounter === 0 && ev.currentTarget.innerHTML != "")
+    ev.currentTarget.style.border = null;
   console.log("leave");
-  this.parentElement.classList.remove('hovered');
+  //this.classList.remove('hovered');
 }
 
+/*const dragTaskLogic = () => {
+  const tasksColumns = document.querySelectorAll(".tasks");
+  for (let tasks of tasksColumns) {
+    new Sortable(tasks, {
+      animation: 350
+    });
+  }
+}*/
+
+dragTaskLogic();
 

@@ -1,4 +1,4 @@
-@import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css";
+@import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css';
 
 * {
   margin: 0;
@@ -9,7 +9,8 @@
 html,
 body {
   height: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Helvetica Neue, Arial, Noto Sans, sans-serif;
   color: #172b4d;
   overflow: hidden;
 }
@@ -62,7 +63,7 @@ aside button {
 
   width: 3em;
   height: 3em;
-  background-image: url("https://res.cloudinary.com/dvujyxh7e/image/upload/c_scale,w_48/v1593253478/trung-vo_bioxmc.png");
+  background-image: url('https://res.cloudinary.com/dvujyxh7e/image/upload/c_scale,w_48/v1593253478/trung-vo_bioxmc.png');
   border-radius: 100%;
 }
 
@@ -111,6 +112,7 @@ h1 {
 
 .board {
   display: flex;
+  position: relative;
   flex-direction: column;
 }
 
@@ -139,6 +141,10 @@ h5.section-title {
 
 /***** TASK CARD *****/
 
+.tasks {
+  min-height: 100px;
+}
+
 .task {
   position: relative;
   background: #ffffff;
@@ -156,7 +162,6 @@ h5.section-title {
   display: flex;
   justify-content: space-between;
 }
-
 
 .task-title {
   margin-bottom: 1.5em;
@@ -197,9 +202,21 @@ h5.section-title {
   margin-right: 0;
 }
 
-.taskHeader >i {
-  text-align:center;
-  margin:5px;
+.taskHeader > i {
+  text-align: center;
+  margin: 5px;
+}
+
+.editTask,
+.delete-task {
+  display: none;
+}
+
+.showIcon {
+  display: block;
+}
+.settings {
+  cursor: pointer;
 }
 
 /****** END TASK CARD *****/
@@ -226,18 +243,17 @@ h5.section-title {
   }
 }
 
-
 .icon-green {
-  color: #57A55A;
+  color: #57a55a;
 }
 .icon-yellow {
-  color: #E97F33;
+  color: #e97f33;
 }
 .icon-orange {
-  color: #E9494A;
+  color: #e9494a;
 }
 .icon-red {
-  color: #CD1317;
+  color: #cd1317;
 }
 .icon-blue {
   color: #0747a6;
@@ -285,7 +301,7 @@ h5.section-title {
 
 .modal input,
 .modal select {
-  background: #FFFFFF;
+  background: #ffffff;
   border: 1px #ddd solid;
   border-radius: 5px;
   margin-bottom: 1em;
@@ -294,7 +310,7 @@ h5.section-title {
 }
 
 #description {
-  background: #FFFFFF;
+  background: #ffffff;
   border: 1px #ddd solid;
   border-radius: 5px;
   margin-bottom: 1em;
@@ -307,7 +323,7 @@ h5.section-title {
   border: none;
   padding: 1em;
   background-color: #0747a6;
-  color: #FFF;
+  color: #fff;
   cursor: pointer;
 }
 
