@@ -258,33 +258,37 @@ function editTask(event) {
 }
 
 function deleteTask(event) {
-  event.stopPropagation();
-  const task = event.currentTarget.parentElement.parentElement;
-  event.currentTarget.removeEventListener("click", deleteTask);
-  const remove = () => { task.parentNode.removeChild(task) };
-  task.animate([
-    { opacity: 1 },
-    { opacity: 0 }
-  ], 500).onfinish = remove;
+  const result = confirm("Are you sure you want to delete this task? \n" +
+    "Operation is irreversible !");
+  if (result) {
+    event.stopPropagation();
+    const task = event.currentTarget.parentElement.parentElement;
+    event.currentTarget.removeEventListener("click", deleteTask);
+    const remove = () => { task.parentNode.removeChild(task) };
+    task.animate([
+      { opacity: 1 },
+      { opacity: 0 }
+    ], 500).onfinish = remove;
 
-  const deleteTaskOnAPI = () => {
-    const taskCode = task.getElementsByClassName("task-code")[0].innerHTML.toString();
-    const numberPattern = /\d+/g;
-    const taskId = parseInt(taskCode.match(numberPattern));
+    const deleteTaskOnAPI = () => {
+      const taskCode = task.getElementsByClassName("task-code")[0].innerHTML.toString();
+      const numberPattern = /\d+/g;
+      const taskId = parseInt(taskCode.match(numberPattern));
 
-    fetch("https://60638dd76bc4d60017fab46a.mockapi.io/task/" + taskId,
-      {
-        method: 'DELETE',
-      })
-      .then(response => response.json())
-      .then(result => {
-        console.log('Success:', result);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
+      fetch("https://60638dd76bc4d60017fab46a.mockapi.io/task/" + taskId,
+        {
+          method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(result => {
+          console.log('Success:', result);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+    deleteTaskOnAPI();
   }
-  deleteTaskOnAPI();
 };
 
 
