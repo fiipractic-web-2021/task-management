@@ -23,8 +23,16 @@
       </aside>
       <main>
         <h1>JIRA board</h1>
-        <div class="filters">
-          <input type="search" placeholder="search..." />
+        <div class="filters" style="display: none">
+          <div id="search-tasks">
+            <input
+              type="text"
+              placeholder="search..."
+              name="search"
+              id="searchSubmit"
+            />
+            <i class="fas fa-times-circle"></i>
+          </div>
           <ul class="avatar-list">
             <li class="avatar"></li>
             <li class="avatar"></li>

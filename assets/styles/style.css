@@ -91,10 +91,24 @@ ul:hover li:nth-child(n + 2) {
   justify-content: flex-start;
 }
 
-.filters > input {
-  height: 30px;
+.filters > * {
   align-self: center;
   margin-right: 20px;
+}
+
+#search-tasks {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 5px;
+  width: 250px;
+  height: 50px;
+}
+
+#search-tasks > * {
+  display: flex;
+  height: 25px;
+  align-items: center;
 }
 
 /****** END SIDENAV *****/

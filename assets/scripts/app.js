@@ -565,3 +565,45 @@ function dragLeave(ev) {
 
 dragTaskLogic();
 
+const searchButton = document.getElementById('searchTask');
+const closeSearch = document.getElementsByClassName('filters')[0].querySelectorAll('.fa-times-circle')[0];
+console.log(closeSearch);
+closeSearch.addEventListener('click', showSearchBar);
+searchButton.addEventListener('click', showSearchBar);
+
+function showSearchBar() {
+  let searchBar = document.getElementsByClassName('filters')[0];
+  const removeSearchBar = () => { searchBar.style.display = 'none' };
+  if (searchBar.style.display == 'none') {
+    searchBar.style.display = 'flex';
+    searchBar.animate([
+      { opacity: 0 },
+      { opacity: 1 }
+    ], 500);
+  } else {
+    searchBar.animate([
+      { opacity: 1 },
+      { opacity: 0 }
+    ], 500).onfinish = removeSearchBar;
+
+  }
+}
+
+
+function searchHandler() {
+  let searchTerm = document.getElementById('searchSubmit').value;
+  searchTerm = searchTerm.toLowerCase();
+  console.log(searchTerm);
+  const tasks = document.getElementsByClassName("task");
+  for (const task of tasks) {
+    if (!task.innerHTML.toLowerCase().includes(searchTerm)) {
+      task.style.display = "none";
+    } else {
+      task.style.display = "block";
+    }
+  }
+}
+
+const searchBar = document.getElementById('searchSubmit');
+searchBar.addEventListener('keyup', searchHandler);
+
